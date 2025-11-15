@@ -55,7 +55,7 @@ onMounted(() => {
   let flag = false
   setInterval(() => {
     if(flag) {
-      document.title = "【新消息】" + originalTitle
+      document.title = "【新插件】" + originalTitle
     } else {
       document.title = '【_______】' + originalTitle
     }

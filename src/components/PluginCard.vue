@@ -54,99 +54,114 @@
         </n-tag>
       </div>
     </template>
-    <n-space vertical class="card-content">
-      <p class="description" role="contentinfo" aria-label="插件描述">{{ plugin.desc }}</p>
-      <div 
-        class="tags-container" 
-        role="region" 
-        aria-label="插件标签区域"
-      >
-        <n-space class="tags-space" role="list" aria-label="标签列表">
-          <n-tag
-            v-for="tag in plugin.tags"
-            :key="tag"
-            size="small"
-            :bordered="false"
-            type="info"
-            class="plugin-tag"
-            role="listitem"
-            :aria-label="`标签：${tag}`"
-          >
-            {{ tag }}
-          </n-tag>
-        </n-space>
+    
+    <div class="card-content-wrapper">
+      <!-- Logo 显示区域 -->
+      <div class="plugin-logo-container">
+        <img 
+          :src="getLogoUrl()" 
+          :alt="`${plugin.name} logo`"
+          class="plugin-logo"
+          @error="handleLogoError"
+        />
       </div>
-      <div class="plugin-meta" role="group" aria-label="插件元数据">
-        <span class="author" role="text" :aria-label="`作者: ${plugin.author}`">作者: {{ plugin.author }}</span>
-        <n-space align="center" class="stars" role="group" aria-label="星标数">
-          <n-icon aria-hidden="true"><star-sharp /></n-icon>
-          <span role="text">{{ plugin.stars }}</span>
-        </n-space>
-      </div>
-      <!-- 优化后的按钮区域 -->
-      <div class="plugin-links" role="toolbar" aria-label="插件操作区">
-        <div class="button-group" role="group" aria-label="插件链接操作">
-          <n-button
-            type="primary"
-            secondary
-            size="small"
-            @click="(e) => openUrl(plugin.repo, e)"
-            class="main-button"
-            role="link"
-            :aria-label="`查看 ${plugin.name} 的仓库`"
-            aria-haspopup="true"
-            aria-expanded="false"
+      
+      <div class="card-main-content">
+        <n-space vertical class="card-content">
+          <p class="description" role="contentinfo" aria-label="插件描述">{{ plugin.desc }}</p>
+          <div 
+            class="tags-container" 
+            role="region" 
+            aria-label="插件标签区域"
           >
-            查看仓库
-          </n-button>
-          <div class="icon-buttons" role="group" aria-label="快捷操作按钮组">
-            <n-tooltip placement="top" trigger="hover">
-              <template #trigger>
-                <n-button
-                  secondary
-                  size="small"
-                  circle
-                  @click="copyRepoUrl"
-                  role="button"
-                  :aria-label="`复制 ${plugin.name} 的仓库链接`"
-                  :aria-pressed="isCopied"
-                  aria-live="polite"
-                >
-                  <n-icon size="18" aria-hidden="true">
-                    <template v-if="isCopied">
-                      <checkmark-outline />
-                    </template>
-                    <template v-else>
-                      <link-outline />
-                    </template>
-                  </n-icon>
-                </n-button>
-              </template>
-              <span role="tooltip">{{ isCopied ? '已复制链接！' : '复制仓库链接' }}</span>
-            </n-tooltip>
-            <n-tooltip v-if="plugin.social_link" placement="top" trigger="hover">
-              <template #trigger>
-                <n-button
-                  secondary
-                  size="small"
-                  circle
-                  @click="(e) => openUrl(plugin.social_link, e)"
-                  role="link"
-                  :aria-label="`访问${plugin.author}的主页`"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <n-icon size="18" aria-hidden="true">
-                    <person-outline />
-                  </n-icon>
-                </n-button>
-              </template>
-              <span role="tooltip">访问作者主页</span>
-            </n-tooltip>
+            <n-space class="tags-space" role="list" aria-label="标签列表">
+              <n-tag
+                v-for="tag in plugin.tags"
+                :key="tag"
+                size="small"
+                :bordered="false"
+                type="info"
+                class="plugin-tag"
+                role="listitem"
+                :aria-label="`标签：${tag}`"
+              >
+                {{ tag }}
+              </n-tag>
+            </n-space>
           </div>
-        </div>
+          <div class="plugin-meta" role="group" aria-label="插件元数据">
+            <span class="author" role="text" :aria-label="`作者: ${plugin.author}`">作者: {{ plugin.author }}</span>
+            <n-space align="center" class="stars" role="group" aria-label="星标数">
+              <n-icon aria-hidden="true"><star-sharp /></n-icon>
+              <span role="text">{{ plugin.stars }}</span>
+            </n-space>
+          </div>
+          <!-- 优化后的按钮区域 -->
+          <div class="plugin-links" role="toolbar" aria-label="插件操作区">
+            <div class="button-group" role="group" aria-label="插件链接操作">
+              <n-button
+                type="primary"
+                secondary
+                size="small"
+                @click="(e) => openUrl(plugin.repo, e)"
+                class="main-button"
+                role="link"
+                :aria-label="`查看 ${plugin.name} 的仓库`"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                查看仓库
+              </n-button>
+              <div class="icon-buttons" role="group" aria-label="快捷操作按钮组">
+                <n-tooltip placement="top" trigger="hover">
+                  <template #trigger>
+                    <n-button
+                      secondary
+                      size="small"
+                      circle
+                      @click="copyRepoUrl"
+                      role="button"
+                      :aria-label="`复制 ${plugin.name} 的仓库链接`"
+                      :aria-pressed="isCopied"
+                      aria-live="polite"
+                    >
+                      <n-icon size="18" aria-hidden="true">
+                        <template v-if="isCopied">
+                          <checkmark-outline />
+                        </template>
+                        <template v-else>
+                          <link-outline />
+                        </template>
+                      </n-icon>
+                    </n-button>
+                  </template>
+                  <span role="tooltip">{{ isCopied ? '已复制链接！' : '复制仓库链接' }}</span>
+                </n-tooltip>
+                <n-tooltip v-if="plugin.social_link" placement="top" trigger="hover">
+                  <template #trigger>
+                    <n-button
+                      secondary
+                      size="small"
+                      circle
+                      @click="(e) => openUrl(plugin.social_link, e)"
+                      role="link"
+                      :aria-label="`访问${plugin.author}的主页`"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <n-icon size="18" aria-hidden="true">
+                        <person-outline />
+                      </n-icon>
+                    </n-button>
+                  </template>
+                  <span role="tooltip">访问作者主页</span>
+                </n-tooltip>
+              </div>
+            </div>
+          </div>
+        </n-space>
       </div>
-    </n-space>
+    </div>
   </n-card>
 
   <!-- 插件详情模态框 -->
@@ -212,7 +227,7 @@ const checkTextOverflow = () => {
 
 const updateMarqueeAnimation = (containerWidth, textWidth) => {
   if (pluginNameEl.value) {
-    const translateDistance = textWidth - containerWidth + 20 // 额外20px的缓冲
+    const translateDistance = textWidth - containerWidth + 20
     pluginNameEl.value.style.setProperty('--translate-distance', `-${translateDistance}px`)
   }
 }
@@ -280,6 +295,34 @@ const openUrl = (url, e) => {
 const showDetails = () => {
   showPluginDetails.value = true
 }
+
+// 获取logo URL的逻辑
+const getLogoUrl = () => {
+  // 如果插件有logo字段，直接使用
+  if (props.plugin.logo) {
+    return props.plugin.logo
+  }
+  
+  // 如果没有logo但有repo，尝试从GitHub仓库获取logo
+  if (props.plugin.repo) {
+    const githubRepoPattern = /github\.com\/([^\/]+)\/([^\/]+)/
+    const match = props.plugin.repo.match(githubRepoPattern)
+    
+    if (match) {
+      const [, owner, repo] = match
+      return `https://raw.githubusercontent.com/${owner}/${repo}/refs/heads/master/logo.png`
+    }
+  }
+  
+  // 默认返回占位符logo
+  return '/plugin_default.png'
+}
+
+// 处理logo加载错误
+const handleLogoError = (event) => {
+  // 如果logo加载失败，使用默认logo
+  event.target.src = '/plugin_default.png'
+}
 </script>
 
 <style scoped>
@@ -333,6 +376,7 @@ const showDetails = () => {
   margin-bottom: 0 !important;
   padding-bottom: 6px !important;
 }
+
 :deep(.n-card-header) {
   margin-bottom: 0 !important;
   padding-bottom: 6px !important;
@@ -442,6 +486,37 @@ const showDetails = () => {
   font-weight: 700;
   flex-shrink: 0;
   border-radius: 3px;
+}
+
+.card-content-wrapper {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.plugin-logo-container {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: rgba(255, 153, 0, 0.1);
+  border: 1px solid var(--primary-color);
+  overflow: hidden;
+}
+
+.plugin-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.card-main-content {
+  flex: 1;
+  min-width: 0;
 }
 
 .card-content {
@@ -616,6 +691,11 @@ const showDetails = () => {
   
   .icon-buttons :deep(.n-button .n-icon) {
     font-size: 16px;
+  }
+  
+  .plugin-logo-container {
+    width: 50px;
+    height: 50px;
   }
 }
 
