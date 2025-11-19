@@ -46,7 +46,7 @@ watch([() => props.isActive, () => props.position], ([active, position]) => {
 .iris-mask.is-active {
   opacity: 1;
   visibility: visible;
-  animation: irisAnimation 0.9s ease-in-out forwards;
+  animation: irisAnimation 1.2s ease-in-out forwards;
 }
 
 .iris-content {
@@ -69,7 +69,10 @@ watch([() => props.isActive, () => props.position], ([active, position]) => {
   0% {
     clip-path: circle(0% at var(--iris-x, 50%) var(--iris-y, 50%));
   }
-  50% {
+  41.67% {
+    clip-path: circle(150% at var(--iris-x, 50%) var(--iris-y, 50%));
+  }
+  66.67% {
     clip-path: circle(150% at var(--iris-x, 50%) var(--iris-y, 50%));
   }
   100% {

@@ -1,7 +1,6 @@
 <template>
   <n-layout class="main-layout">
     <app-header
-      v-model="isDarkMode"
       v-model:search-query="searchQuery"
       v-model:selected-tag="selectedTag"
       v-model:current-page="currentPage"
@@ -94,8 +93,7 @@ import AppFooter from '../components/AppFooter.vue'
 import { usePluginStore } from '../stores/plugins'
 
 const store = usePluginStore()
-const { 
-  isDarkMode,
+const {
   searchQuery,
   selectedTag,
   currentPage,

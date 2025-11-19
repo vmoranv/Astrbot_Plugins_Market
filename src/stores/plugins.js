@@ -2,13 +2,12 @@ import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
 
 export const usePluginStore = defineStore('plugins', () => {
-  const savedTheme = localStorage.getItem('theme-preference')
   const plugins = ref(null)
   const searchQuery = ref('')
   const selectedTag = ref(null)
   const currentPage = ref(1)
   const pageSize = ref(12)
-  const isDarkMode = ref(savedTheme === 'dark')
+  const isDarkMode = ref(true)
   const isLoading = ref(true)
   const sortBy = ref('default')
   const randomSeed = ref(0)
@@ -72,13 +71,10 @@ export const usePluginStore = defineStore('plugins', () => {
       // 延迟关闭遮罩
       setTimeout(() => {
         irisMaskActive.value = false
-      }, 300)
-    }, 600)
+      }, 400)
+    }, 800)
   }
   
-  watch(isDarkMode, (newValue) => {
-    localStorage.setItem('theme-preference', newValue ? 'dark' : 'light')
-  })
 
   watch(sortBy, (value) => {
     if (value === 'random') {
@@ -87,7 +83,8 @@ export const usePluginStore = defineStore('plugins', () => {
   })
 
   const toggleTheme = () => {
-    isDarkMode.value = !isDarkMode.value
+    // 主题切换已禁用，始终使用深色模式
+    isDarkMode.value = true
   }
 
   function stableHash(input, seedNumber) {
@@ -234,7 +231,8 @@ export const usePluginStore = defineStore('plugins', () => {
   }
 
   function setDarkMode(value) {
-    isDarkMode.value = value
+    // 强制使用深色模式
+    isDarkMode.value = true
   }
 
   function setSearchQuery(query) {

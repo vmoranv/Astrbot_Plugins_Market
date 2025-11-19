@@ -10,21 +10,6 @@
     
     <n-space justify="end" style="padding: 16px" align="center" :size="16">
       <api-switcher />
-      <n-switch
-        :value="modelValue"
-        @update:value="handleThemeChange"
-        :rail-style="railStyle"
-        :aria-label="modelValue ? '切换到浅色主题' : '切换到深色主题'"
-        :aria-checked="modelValue"
-        role="switch"
-      >
-        <template #checked>
-          <n-icon aria-hidden="true"><moon-sharp /></n-icon>
-        </template>
-        <template #unchecked>
-          <n-icon aria-hidden="true"><sunny-sharp /></n-icon>
-        </template>
-      </n-switch>
     </n-space>
       <div class="header-title">
         <img src="/logo.webp" alt="PornHub Logo" class="header-logo" width="48" height="48" decoding="async" fetchpriority="high">
@@ -108,38 +93,11 @@
                <n-icon size="18"><filter-sharp /></n-icon>
              </n-button>
            </n-dropdown>
-
-           <n-button
-             quaternary
-             circle
-             size="medium"
-             @click="handleThemeChange(!modelValue)"
-             :aria-label="modelValue ? '切换到浅色主题' : '切换到深色主题'"
-             class="theme-toggle-btn"
-           >
-             <n-icon size="18">
-               <moon-sharp v-if="modelValue" />
-               <sunny-sharp v-else />
-             </n-icon>
-           </n-button>
          </div>
 
          <!-- Desktop controls -->
          <div class="sticky-desktop-controls">
            <api-switcher />
-           <n-button
-             quaternary
-             circle
-             size="medium"
-             @click="handleThemeChange(!modelValue)"
-             :aria-label="modelValue ? '切换到浅色主题' : '切换到深色主题'"
-             class="theme-toggle-btn"
-           >
-             <n-icon size="18">
-               <moon-sharp v-if="modelValue" />
-               <sunny-sharp v-else />
-             </n-icon>
-           </n-button>
          </div>
        </div>
       </div>
@@ -150,13 +108,12 @@
 
 <script setup>
 import { computed, onMounted, ref, onUnmounted, h } from 'vue'
-import { NSpace, NSwitch, NIcon, NButton, NPopover, NInput, NSelect, NDropdown } from 'naive-ui'
-import { MoonSharp, SunnySharp, SearchOutline, FilterSharp, CloseOutline, CheckmarkSharp } from '@vicons/ionicons5'
+import { NSpace, NIcon, NButton, NPopover, NInput, NSelect, NDropdown } from 'naive-ui'
+import { SearchOutline, FilterSharp, CloseOutline, CheckmarkSharp } from '@vicons/ionicons5'
 import SearchToolbar from './SearchToolbar.vue'
 import ApiSwitcher from './ApiSwitcher.vue'
 
 const props = defineProps({
-  modelValue: Boolean,
   searchQuery: String,
   currentPage: Number,
   totalPages: Number,
@@ -166,16 +123,11 @@ const props = defineProps({
 })
 
 const emit = defineEmits([
-  'update:modelValue',
   'update:searchQuery',
   'update:currentPage',
   'update:sortBy',
   'update:selectedTag'
 ])
-
-const handleThemeChange = (value) => {
-  emit('update:modelValue', value)
-}
 
 const handleSearchQueryChange = (value) => {
   emit('update:searchQuery', value)
@@ -240,18 +192,6 @@ const toggleMobileSelect = () => {
   isMobileSelectOpen.value = !isMobileSelectOpen.value
 }
 
-const railStyle = ({ focused, checked }) => {
-  const style = {}
-  if (checked) {
-    style.background = '#1e293b'
-  } else {
-    style.background = '#ff9900'
-  }
-  if (focused) {
-    style.boxShadow = checked ? '0 0 0 2px rgba(30, 41, 59, 0.3)' : '0 0 0 2px rgba(255, 153, 0, 0.3)'
-  }
-  return style
-}
 
 // 滚动监听功能
 const handleScroll = () => {
@@ -461,47 +401,6 @@ onUnmounted(() => {
   }
 }
 
-/* 主题切换按钮样式 */
-:deep(.n-switch) {
-  --n-button-color: #fff;
-  --n-button-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  --n-loading-color: var(--primary-color);
-  width: 50px !important;
-  height: 24px !important;
-  position: relative;
-  z-index: 3;
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-}
-
-:deep(.n-switch .n-switch__rail) {
-  height: 24px !important;
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-:deep(.n-switch .n-switch__button) {
-  height: 20px !important;
-  width: 20px !important;
-  top: 2px !important;
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-}
-
-:deep(.n-switch .n-switch__button-icon) {
-  font-size: 14px;
-  color: var(--primary-color);
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
 
 /* ===== 响应式设计优化 ===== */
 

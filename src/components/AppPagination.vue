@@ -150,7 +150,7 @@ onUnmounted(() => {
 }
 
 :deep(.n-pagination .n-pagination-item) {
-  color: var(--pagination-text, rgba(0, 0, 0, 0.85)) !important;
+  color: var(--pagination-text, #ffffff) !important;
   background: var(--pagination-item-bg, rgba(255, 255, 255, 0.08)) !important;
   border: none !important;
   backdrop-filter: blur(8px);
@@ -163,10 +163,11 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 500;
+  font-weight: 600;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   will-change: transform, background-color, color;
   transform-origin: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 @keyframes page-num-scale {
@@ -181,15 +182,17 @@ onUnmounted(() => {
   border-color: var(--primary-color) !important;
   transform: translateY(-1px) scale(1.05);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
 :deep(.n-pagination .n-pagination-item--active) {
   color: white !important;
   background-color: var(--primary-color) !important;
   border-color: var(--primary-color) !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   box-shadow: 0 2px 12px rgba(96, 165, 250, 0.3);
   animation: page-num-scale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
 }
 
 :deep(.n-pagination .n-pagination-prefix),
@@ -271,6 +274,8 @@ onUnmounted(() => {
     height: 36px;
     min-height: 36px;
     border-radius: 8px;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   }
   
   :deep(.n-pagination .n-pagination-item--button) {
@@ -282,6 +287,7 @@ onUnmounted(() => {
     background-color: transparent !important;
     border-color: transparent !important;
     color: var(--text-tertiary) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
   }
 
   :deep(.n-pagination .n-pagination-quick-jumper) {
@@ -317,6 +323,8 @@ onUnmounted(() => {
     min-width: 34px;
     height: 34px;
     min-height: 34px;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   }
 
   :deep(.n-pagination .n-pagination-prefix),
@@ -352,6 +360,8 @@ onUnmounted(() => {
     height: 28px;
     min-height: 28px;
     padding: 0 4px !important;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   }
 
   :deep(.n-pagination .n-pagination-item--button) {
@@ -361,6 +371,7 @@ onUnmounted(() => {
   :deep(.n-pagination .n-pagination-item--disabled) {
     min-width: 20px;
     padding: 0 2px !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
   }
 }
 
